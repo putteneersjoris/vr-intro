@@ -91,7 +91,7 @@
 						loader.load(randomObjFile, (object) => {
 							object.traverse(child => {
 								if (child instanceof THREE.Mesh) {
-									const texture = textureLoader.load('./scans/1.png'); // Adjust the texture path
+									const texture = textureLoader.load('./scans/1.jpg'); // Adjust the texture path
 									const material = new THREE.MeshPhongMaterial({ map: texture });
 									child.material = material;
 								}
