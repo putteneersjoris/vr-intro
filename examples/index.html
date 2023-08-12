@@ -75,10 +75,19 @@
 				//
 
 				const loader = new OBJLoader();
+				const objFiles = [
+					'./scans/1.obj',
+					'./scans/2.obj',
+					'./scans/3.obj',
+					'./scans/4.obj'
+				];
 
 				function onSelect() {
 					if (reticle.visible) {
-						loader.load('./scans/1.obj', (object) => {
+						const randomIndex = Math.floor(Math.random() * objFiles.length);
+						const randomObjFile = objFiles[randomIndex];
+
+						loader.load(randomObjFile, (object) => {
 							object.traverse(child => {
 								if (child instanceof THREE.Mesh) {
 									const material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random() });
