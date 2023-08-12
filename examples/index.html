@@ -74,6 +74,25 @@
 
 				//
 
+				const loader = new OBJLoader();
+
+				function onSelect() {
+					if (reticle.visible) {
+						loader.load('./scans/1.obj', (object) => {
+							object.traverse(child => {
+								if (child instanceof THREE.Mesh) {
+									const material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random() });
+									child.material = material;
+								}
+							});
+
+							reticle.matrix.decompose(object.position, object.quaternion, object.scale);
+							object.scale.set(0.2, 0.2, 0.2); // Adjust the scale as needed
+							scene.add(object);
+						});
+					}
+				}
+
 				// const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
 				// function onSelect() {
@@ -90,29 +109,7 @@
 
 				// }
 
-				let loadedObject;
-
-				function onSelect() {
-					if (reticle.visible) {
-						// Ensure the model is loaded before adding it again
-						if (loadedObject) {
-							scene.add(loadedObject.clone()); // Clone the loaded object to add multiple instances
-						} else {
-							// Load the OBJ model
-							const loader = new OBJLoader();
-							loader.load('./scans/1.obj', (object) => {
-								object.traverse(child => {
-									if (child instanceof THREE.Mesh) {
-										const material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random() });
-										child.material = material;
-									}
-								});
-								loadedObject = object;
-								scene.add(loadedObject.clone()); // Clone the loaded object to add multiple instances
-							});
-						}
-					}
-				}
+				
 
 				controller = renderer.xr.getController( 0 );
 				controller.addEventListener( 'select', onSelect );
