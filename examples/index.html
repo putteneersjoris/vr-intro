@@ -92,13 +92,16 @@
 					// Add more texture file paths corresponding to objFiles
 				];
 
+				function getRandomScale() {
+					return Math.random() + 1; // Generates a random scale between 1 and 2
+				}
+
 				function onSelect() {
 					if (reticle.visible) {
 						const randomIndex = Math.floor(Math.random() * objFiles.length);
 						const randomObjFile = objFiles[randomIndex];
 						const randomTextureFile = textureFiles[randomIndex];
-						const randomScale = Math.random() + 1; // Random scale between 1 and 2
-						const randomRotation = Math.random() * 360; // Random rotation between 0 and 360
+						const randomScale = getRandomScale();
 
 						loader.load(randomObjFile, (object) => {
 							object.traverse(child => {
@@ -110,8 +113,7 @@
 							});
 
 							reticle.matrix.decompose(object.position, object.quaternion, object.scale);
-							object.scale.set(randomScale, randomScale, randomScale);
-							object.rotation.y = THREE.Math.degToRad(randomRotation);
+							object.scale.set(randomScale, randomScale, randomScale); // Apply the random scale
 							scene.add(object);
 						});
 					}
