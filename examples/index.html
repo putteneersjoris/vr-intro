@@ -8,9 +8,7 @@
 	</head>
 	<body>
 
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> ar - hit test<br/>(Chrome Android 81+)
-		</div>
+		
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
@@ -29,10 +27,13 @@
 
 			import * as THREE from 'three';
 			import { ARButton } from 'three/addons/webxr/ARButton.js';
+			import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 			let container;
 			let camera, scene, renderer;
 			let controller;
+			let controls
 
 			let reticle;
 
@@ -50,6 +51,10 @@
 				scene = new THREE.Scene();
 
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
+
+				controls = new OrbitControls(camera, container);
+				controls.target.set(0, 1.6, 0);
+				controls.update();
 
 				const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 3 );
 				light.position.set( 0.5, 1, 0.25 );
@@ -69,20 +74,44 @@
 
 				//
 
-				const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
+				// const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
+
+				// function onSelect() {
+
+				// 	if ( reticle.visible ) {
+
+				// 		const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+				// 		const mesh = new THREE.Mesh( geometry, material );
+				// 		reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
+				// 		mesh.scale.y = Math.random() * 2 + 1;
+				// 		scene.add( mesh );
+
+				// 	}
+
+				// }
+
+				let loadedObject;
 
 				function onSelect() {
-
-					if ( reticle.visible ) {
-
-						const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-						const mesh = new THREE.Mesh( geometry, material );
-						reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
-						mesh.scale.y = Math.random() * 2 + 1;
-						scene.add( mesh );
-
+					if (reticle.visible) {
+						// Ensure the model is loaded before adding it again
+						if (loadedObject) {
+							scene.add(loadedObject.clone()); // Clone the loaded object to add multiple instances
+						} else {
+							// Load the OBJ model
+							const loader = new OBJLoader();
+							loader.load('./scans/1.obj', (object) => {
+								object.traverse(child => {
+									if (child instanceof THREE.Mesh) {
+										const material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random() });
+										child.material = material;
+									}
+								});
+								loadedObject = object;
+								scene.add(loadedObject.clone()); // Clone the loaded object to add multiple instances
+							});
+						}
 					}
-
 				}
 
 				controller = renderer.xr.getController( 0 );
