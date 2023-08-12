@@ -8,10 +8,6 @@
 	</head>
 	<body>
 
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> vr - handinput<br/>
-			(Oculus Browser 15.1+)
-		</div>
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
@@ -33,6 +29,8 @@
 			import { VRButton } from 'three/addons/webxr/VRButton.js';
 			import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
 			import { XRHandModelFactory } from 'three/addons/webxr/XRHandModelFactory.js';
+			import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+			import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 			let container;
 			let camera, scene, renderer;
@@ -79,7 +77,61 @@
 				light.shadow.mapSize.set( 4096, 4096 );
 				scene.add( light );
 
-				//
+				//add obj models with texture
+
+
+				// new OBJLoader()
+				// 			.setMaterials( materials )
+				// 			.setPath( 'models/obj/male02/' )
+				// 			.load( 'male02.obj', function ( object ) {
+
+				// 				object.position.y = - 0.95;
+				// 				object.scale.setScalar( 0.01 );
+				// 				scene.add( object );
+
+				// 			}, onProgress );
+				// const loader = new THREE.OBJLoader();
+        		// const textureLoader = new THREE.TextureLoader();
+
+								// model
+
+								const onProgress = function ( xhr ) {
+
+if ( xhr.lengthComputable ) {
+
+	const percentComplete = xhr.loaded / xhr.total * 100;
+	console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+
+}
+
+};
+
+new MTLLoader()
+.setPath( 'models/obj/male02/' )
+.load( 'male02.mtl', function ( materials ) {
+
+	materials.preload();
+
+	new OBJLoader()
+		.setMaterials( materials )
+		.setPath( 'models/obj/male02/' )
+		.load( 'male02.obj', function ( object ) {
+
+			object.position.y = - 0.95;
+			object.scale.setScalar( 0.01 );
+			scene.add( object );
+
+		}, onProgress );
+
+} );
+
+//
+
+
+
+
+
+
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
