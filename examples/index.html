@@ -75,23 +75,23 @@
 				//
 
 				const loader = new OBJLoader();
+				const textureLoader = new THREE.TextureLoader();
 				const objFiles = [
-					{ obj: './scans/1.obj', texture: './scans/texture1.png' },
-					{ obj: './scans/2.obj', texture: './scans/texture2.png' },
-					{ obj: './scans/3.obj', texture: './scans/texture3.png' }
-					// Add more obj and texture entries as needed
+					'./scans/1.obj',
+					'./scans/2.obj',
+					'./scans/3.obj'
+					// Add more obj file paths as needed
 				];
 
 				function onSelect() {
 					if (reticle.visible) {
 						const randomIndex = Math.floor(Math.random() * objFiles.length);
-						const randomObjEntry = objFiles[randomIndex];
+						const randomObjFile = objFiles[randomIndex];
 
-						loader.load(randomObjEntry.obj, (object) => {
+						loader.load(randomObjFile, (object) => {
 							object.traverse(child => {
 								if (child instanceof THREE.Mesh) {
-									const textureLoader = new THREE.TextureLoader();
-									const texture = textureLoader.load(randomObjEntry.texture);
+									const texture = textureLoader.load('./scans/1.png'); // Adjust the texture path
 									const material = new THREE.MeshPhongMaterial({ map: texture });
 									child.material = material;
 								}
@@ -103,12 +103,6 @@
 						});
 					}
 				}
-// In this code, the objFiles array now contains objects with both .obj and texture paths. When selecting a random object from the array, it also fetches the corresponding texture path from the selected object entry and applies it as a texture map using a TextureLoader. This way, each loaded object will have its own unique texture.
-
-
-
-
-
 
 				// const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
