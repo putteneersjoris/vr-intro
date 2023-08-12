@@ -79,19 +79,29 @@
 				const objFiles = [
 					'./scans/1.obj',
 					'./scans/2.obj',
-					'./scans/3.obj'
+					'./scans/3.obj',
+					'./scans/4.obj'
+
 					// Add more obj file paths as needed
+				];
+				const textureFiles = [
+					'./scans/1.jpg',
+					'./scans/2.jpg',
+					'./scans/3.jpg',
+					'./scans/4.jpg'
+					// Add more texture file paths corresponding to objFiles
 				];
 
 				function onSelect() {
 					if (reticle.visible) {
 						const randomIndex = Math.floor(Math.random() * objFiles.length);
 						const randomObjFile = objFiles[randomIndex];
+						const randomTextureFile = textureFiles[randomIndex];
 
 						loader.load(randomObjFile, (object) => {
 							object.traverse(child => {
 								if (child instanceof THREE.Mesh) {
-									const texture = textureLoader.load('./scans/1.jpg'); // Adjust the texture path
+									const texture = textureLoader.load(randomTextureFile);
 									const material = new THREE.MeshPhongMaterial({ map: texture });
 									child.material = material;
 								}
