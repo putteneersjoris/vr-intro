@@ -93,7 +93,7 @@
 				];
 
 				function getRandomScale() {
-					return Math.random() + 0.5; // Generates a random scale between 1 and 2
+					return Math.random() * 1,5; // Generates a random scale between 1 and 2
 				}
 
 				function getRandomRotation() {
@@ -125,21 +125,6 @@
 					}
 				}
 
-				// const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
-
-				// function onSelect() {
-
-				// 	if ( reticle.visible ) {
-
-				// 		const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-				// 		const mesh = new THREE.Mesh( geometry, material );
-				// 		reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
-				// 		mesh.scale.y = Math.random() * 2 + 1;
-				// 		scene.add( mesh );
-
-				// 	}
-
-				// }
 
 				
 
