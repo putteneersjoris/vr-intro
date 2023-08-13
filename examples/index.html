@@ -80,20 +80,20 @@
 					// './scans/1.obj',
 					// './scans/2.obj',
 					// './scans/3.obj',
-					// './scans/4.obj',
-					'./scans/5.obj'
-				];
+					'./scans/6.obj'
 
+					// Add more obj file paths as needed
+				];
 				const textureFiles = [
 					// './scans/1.jpg',
 					// './scans/2.jpg',
 					// './scans/3.jpg',
-					// './scans/4.jpg',
-					'./scans/5.jpg'
+					'./scans/6.jpg'
+					// Add more texture file paths corresponding to objFiles
 				];
 
 				function getRandomScale() {
-					return 1 + (Math.random() * 0.5) ; // Generates a random scale between 1 and 2
+					return 1 ; // Generates a random scale between 1 and 2
 				}
 
 				function getRandomRotation() {
@@ -134,10 +134,7 @@
 
 				reticle = new THREE.Mesh(
 					new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
-					new THREE.MeshBasicMaterial({ 
-						color: 0xffffff,
-						side: THREE.DoubleSide 
-  					})
+					new THREE.MeshBasicMaterial()
 				);
 				reticle.matrixAutoUpdate = false;
 				reticle.visible = false;
