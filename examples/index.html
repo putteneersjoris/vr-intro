@@ -83,7 +83,7 @@
 					'./scans/4.obj',
 					'./scans/5.obj'
 				];
-				
+
 				const textureFiles = [
 					'./scans/1.jpg',
 					'./scans/2.jpg',
@@ -134,7 +134,9 @@
 
 				reticle = new THREE.Mesh(
 					new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
-					new THREE.MeshBasicMaterial()
+					new THREE.MeshBasicMaterial({ 
+						side: THREE.DoubleSide 
+  					})
 				);
 				reticle.matrixAutoUpdate = false;
 				reticle.visible = false;
