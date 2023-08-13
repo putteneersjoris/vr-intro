@@ -56,7 +56,7 @@
 				controls.target.set(0, 1.6, 0);
 				controls.update();
 
-				const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 3 );
+				const light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 3 );
 				light.position.set( 0.5, 1, 0.25 );
 				scene.add( light );
 
@@ -112,7 +112,10 @@
 							object.traverse(child => {
 								if (child instanceof THREE.Mesh) {
 									const texture = textureLoader.load(randomTextureFile);
-									const material = new THREE.MeshPhongMaterial({ map: texture });
+									// const material = new THREE.MeshPhongMaterial({ map: texture });
+									// const material = new THREE.MeshBasicMaterial({ map: texture });									
+									const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+
 									child.material = material;
 								}
 							});
